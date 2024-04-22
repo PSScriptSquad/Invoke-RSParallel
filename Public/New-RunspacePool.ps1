@@ -4,17 +4,43 @@ function New-RunspacePool {
             Create a new runspace pool
         .DESCRIPTION
             This function creates a new runspace pool. This is needed to be able to run code multi-threaded.
+        .PARAMETER MinimumRunspaces
+            The minimum number of concurrent threads to be handled by the runspace pool. The default is 1.
+        .PARAMETER MaximumRunspaces
+            The maximum number of concurrent threads to be handled by the runspace pool. The default is 20.
+        .PARAMETER MTA
+            Using this switch will set the apartment state to MTA.
+        .PARAMETER ImportSnapins
+            Using this switch will import snap-ins from the global scope to be added to the initial session state of the runspace object.
+        .PARAMETER ImportModules
+            Using this switch will import modules from the global scope to be added to the initial session state of the runspace object.
+        .PARAMETER ImportFunctions
+            Using this switch will import functions from the global scope to be added to the initial session state of the runspace object.
+        .PARAMETER ImportVariables
+            Using this switch will import variables from the global scope to be added to the initial session state of the runspace object.
+        .PARAMETER MaxQueue
+            The maximum number of PowerShell instances to be created at one time. Helps with memory management.
         .EXAMPLE
             $pool = New-RunspacePool
             Description
             -----------
             Create a new runspace pool with default settings, and store it in the pool variable.
+        .EXAMPLE
+            $pool = New-RunspacePool -ImportModules -ImportFunctions
+            Description
+            -----------
+            Create a new runspace pool with all available modules and functions imported to the runspace pool.
+        .EXAMPLE
+            $pool = New-RunspacePool -MinimumRunspaces 5 -MaximumRunspaces 10 -MTA
+            Description
+            -----------
+            Create a new runspace pool with a minimum of 5 and a maximum of 10 runspaces, and set the apartment state to MTA.
         .NOTES
             Name: New-RunspacePool
             Author: Ryan Whitlock, inspired by Øyvind Kallstad, RamblingCookieMonster and Mjolinor
             Date: 01.11.2024
-            Version: 1.1
-            Changes: Added comments, improved variable naming, and removed unnecessary checks.
+            Version: 1.2
+            Changes: Added comments
     #>
     [CmdletBinding()]
     param(
@@ -32,15 +58,15 @@ function New-RunspacePool {
         [Parameter()]
         [switch]$MTA,
  
-        # Array of snap-ins to be added to the initial session state of the runspace object.
+        # Gets snap-ins from the global scope to be added to the initial session state of the runspace object.
         [Parameter(HelpMessage='Array of SnapIns you want available for the runspace pool')]
         [switch]$ImportSnapins,
  
-        # Array of modules to be added to the initial session state of the runspace object.
+        # Gets modules from the global scope to be added to the initial session state of the runspace object.
         [Parameter(HelpMessage='Array of Modules you want available for the runspace pool')]
         [switch]$ImportModules,
  
-        # Array of functions to be added to the initial session state of the runspace object.
+        # Gets functions from the global scope to be added to the initial session state of the runspace object.
         [Parameter(HelpMessage='Array of Functions that you want available for the runspace pool')]
         [switch]$ImportFunctions,
  
