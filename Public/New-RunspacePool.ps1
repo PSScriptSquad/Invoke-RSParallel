@@ -67,7 +67,7 @@ function New-RunspacePool {
     $initialSessionState = [System.Management.Automation.Runspaces.InitialSessionState]::CreateDefault()
     
     # Get system-created default items to filter against
-    $standardUserEnv = Get-SystemCreatedDefaults
+    $standardUserEnv = Get-SystemDefaults
 
     # Add any snap-ins to the session state object
     if ($ImportSnapins) {
@@ -157,5 +157,5 @@ function New-RunspacePool {
     Write-Verbose 'Runspace Pool Open'
  
     # Return the runspace pool object
-    return $runspacePool
+    Write-Output $runspacePool
 }
