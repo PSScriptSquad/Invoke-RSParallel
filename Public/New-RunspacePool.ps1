@@ -9,11 +9,6 @@ function New-RunspacePool {
             Description
             -----------
             Create a new runspace pool with default settings, and store it in the pool variable.
-        .EXAMPLE
-            $pool = New-RunspacePool -Snapins 'vmware.vimautomation.core'
-            Description
-            -----------
-            Create a new runspace pool with the VMWare PowerCli snapin added, and store it in the pool variable.
         .NOTES
             Name: New-RunspacePool
             Author: Ryan Whitlock, inspired by Øyvind Kallstad, RamblingCookieMonster and Mjolinor
