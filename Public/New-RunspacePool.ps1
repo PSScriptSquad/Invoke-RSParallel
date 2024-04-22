@@ -52,7 +52,15 @@ function New-RunspacePool {
         [Parameter(HelpMessage='Maximum number of concurrent PowerShell instances')]
         [int]$MaxQueue
     )
- 
+    # If global runspace array is not present, create it
+    if (-not $global:runspaces) {
+        $global:runspaces = New-Object System.Collections.ArrayList
+    }
+    # If global runspace counter is not present, create it
+    if (-not $global:runspaceCounter) {
+        $global:runspaceCounter = 0
+    }
+    
     # Initialize the max queue if not specified
     if (-not $PSBoundParameters.ContainsKey('MaxQueue')) {
         $MaxQueue = $MaximumRunspaces * 3 
