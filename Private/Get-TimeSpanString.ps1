@@ -16,7 +16,7 @@ function Get-TimeSpanString {
           Author: Ryan Whitlock
           Date: 01.11.2024
           Version: 2.0
-          Changes: Added comments, Simplified the If statements, added a new RoundTo parameter
+          Changes: Ensured no trailing commas in the output string
     #>
     [CmdletBinding()]
     param(
@@ -49,12 +49,12 @@ function Get-TimeSpanString {
     }
 
     # Format each component of TimeSpan
-    $Day = If ($TimeSpan.Days -eq 1) { "1 Day," } ElseIf ($TimeSpan.Days -gt 1) { "$($TimeSpan.Days) Days," }
-    $Hour = If ($TimeSpan.Hours -eq 1) { "1 Hour," } ElseIf ($TimeSpan.Hours -gt 1) { "$($TimeSpan.Hours) Hours," }
-    $Minute = If ($TimeSpan.Minutes -eq 1) { "1 Minute," } ElseIf ($TimeSpan.Minutes -gt 1) { "$($TimeSpan.Minutes) Minutes," }
-    $Second = If ($TimeSpan.Seconds -eq 1) { "1 Second" } ElseIf ($TimeSpan.Seconds -gt 1) { "$($TimeSpan.Seconds) Seconds" }
+    $Day = if ($TimeSpan.Days -eq 1) { "1 Day" } elseif ($TimeSpan.Days -gt 1) { "$($TimeSpan.Days) Days" } else { $null }
+    $Hour = if ($TimeSpan.Hours -eq 1) { "1 Hour" } elseif ($TimeSpan.Hours -gt 1) { "$($TimeSpan.Hours) Hours" } else { $null }
+    $Minute = if ($TimeSpan.Minutes -eq 1) { "1 Minute" } elseif ($TimeSpan.Minutes -gt 1) { "$($TimeSpan.Minutes) Minutes" } else { $null }
+    $Second = if ($TimeSpan.Seconds -eq 1) { "1 Second" } elseif ($TimeSpan.Seconds -gt 1) { "$($TimeSpan.Seconds) Seconds" } else { $null }
 
     # Construct the final string
-    $TimeComponents = $Day, $Hour, $Minute, $Second -ne $null
-    "$($TimeComponents -join ' ')".Trim()
+    $TimeComponents = @($Day, $Hour, $Minute, $Second) | Where-Object { $_ -ne $null }
+    return "$($TimeComponents -join ', ')".Trim()
 }
