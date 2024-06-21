@@ -36,9 +36,24 @@ function New-RunspaceJob{
 
     begin {
         $ScriptBlockAttributes = Convert-ScriptBlock -ScriptBlock $ScriptBlock -Parameters $Parameters
+
+         # Initialize an ArrayList to hold all objects
+        $allObjects = [System.Collections.ArrayList]@()
+
+        $Bound = $PSBoundParameters.keys -contains "InputObject"
     }
     process {
-        foreach($Object in $InputObject) {
+         # Add objects to $allObjects based on whether InputObject is bound
+        if ($Bound) {
+            # If InputObject is bound, set $allObjects to the value of InputObject
+            $allObjects = $InputObject
+        } else {
+            # If InputObject is not bound, add the piped object to the ArrayList
+            [void]$allObjects.Add($_)
+        }
+    }
+    end {
+        foreach($Object in $allObjects) {
             # increment the runspace counter
             $global:runspaceCounter++
     
@@ -83,9 +98,7 @@ function New-RunspaceJob{
         Receive-RunspaceJob -wait
 <#      if (-not $quiet) {
             Write-Progress -Id $ProgressId -Activity "Running Query" -Status "Starting threads" -Completed
-        }#>
-    }
-    end {
+        }#>   
         Write-Verbose 'Code invoked in runspace' 
     }
 }
