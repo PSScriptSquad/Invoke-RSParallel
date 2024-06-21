@@ -69,7 +69,7 @@ Copyright = '(c) 2024 Ryan Whitlock. All rights reserved.'
 # NestedModules = @()
 
 # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
-FunctionsToExport = @('Clear-RunspaceJobs','New-RunspaceJob','New-RunspacePool','Receive-RunspaceJob')
+FunctionsToExport = @('New-RunspacePool','New-RunspaceJob','Receive-RunspaceJob','Clear-RunspaceJobs')
 
 # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
 CmdletsToExport = @()
