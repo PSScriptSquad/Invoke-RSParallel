@@ -9,6 +9,8 @@ $ModuleManifestParam = @{
 }
 
 New-ModuleManifest @ModuleManifestParam
+
+Import-Module -Name ".\Invoke-RSParallel\2.0.0\Invoke-RSParallel.psd1" -Verbose
 ```
 
 
