@@ -51,7 +51,7 @@ function Remove-RunspaceJob {
                     $job.InvokeHandle = $null
                     $global:Runspaces.Remove($job)
                 } catch {
-                    Write-Error "Error processing job: $_"
+                    Write-Error "Error processing job: $($_.Exception.Message)"
                 }
             }
         } elseif ($global:Runspaces | Where-Object { $_.InvokeHandle -ne $null }) {
