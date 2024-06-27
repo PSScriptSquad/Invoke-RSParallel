@@ -1,5 +1,5 @@
 function Get-SystemCreatedDefaults {
-        <#
+    <#
         .SYNOPSIS
             Gets Default variables, modules, Snapins, and functions
         .DESCRIPTION
@@ -13,18 +13,22 @@ function Get-SystemCreatedDefaults {
     [CmdletBinding()]
     param()
     process {
-        # Create a clean PowerShell instance to load system-created default items
-        $StandardUserEnv = [powershell]::Create().addscript({
-            Function _temp {[cmdletbinding(SupportsShouldProcess=$True)] param() }
-            [PSCustomObject]@{                    
-                Modules     = Get-Module | Select-Object -ExpandProperty Name
-                Snapins     = Get-PSSnapin | Select-Object -ExpandProperty Name
-                Functions   = Get-ChildItem function:\ | Select-Object -ExpandProperty Name
-                Variables   = @((Get-Variable | Select-Object -ExpandProperty Name) + (Get-Command _temp | Select-Object -ExpandProperty parameters).Keys)
-            }
-        },$true).invoke()[0]
-    }
-    end {
-        Write-Output $StandardUserEnv
+        try {
+            # Create a clean PowerShell instance to load system-created default items
+            $StandardUserEnv = [powershell]::Create().addscript({
+                Function _temp {[cmdletbinding(SupportsShouldProcess=$True)] param() }
+                [PSCustomObject]@{                    
+                    Modules     = Get-Module | Select-Object -ExpandProperty Name
+                    Snapins     = Get-PSSnapin | Select-Object -ExpandProperty Name
+                    Functions   = Get-ChildItem function:\ | Select-Object -ExpandProperty Name
+                    Variables   = @((Get-Variable | Select-Object -ExpandProperty Name) + (Get-Command _temp | Select-Object -ExpandProperty parameters).Keys)
+                }
+            },$true).invoke()[0]
+
+            Write-Output $StandardUserEnv
+        }
+        catch {
+            Write-Error "Failed to get system created defaults: $_"
+        }
     }
 }
