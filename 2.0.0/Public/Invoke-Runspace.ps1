@@ -33,7 +33,7 @@ function Invoke-Runspace {
             Author: Ryan Whitlock
             Date: 06.25.2024
             Version: 1.0
-            Changes: Initial release
+            Changes: The script block is pre-compiled before entering the loop to reduce overhead.
     #>
     [CmdletBinding()]
     param(
@@ -47,7 +47,11 @@ function Invoke-Runspace {
         [PSObject]$InputObject,
 
         [Parameter(Mandatory = $false)]
-        [ValidateScript({ Test-Path -Path $_ -PathType Container })]
+        [ValidateScript({ if (-not (Test-Path -Path $_ -PathType Container)) {
+                throw "Invalid log path: $_" 
+                }
+                $true
+            })]
         [System.IO.Fileinfo]$LogPath
     )
     begin {
@@ -79,6 +83,8 @@ function Invoke-Runspace {
 
             $JobData | Export-Csv -Path $LogFilePath -Append -NoTypeInformation
         }
+
+        $ScriptBlockPrepared = [System.Management.Automation.ScriptBlock]::Create($ScriptBlockAttributes.ScriptBlock.ToString())
     }
 
     process {
@@ -97,7 +103,7 @@ function Invoke-Runspace {
             $PSInstance = [System.Management.Automation.PowerShell]::Create()
             $PSInstance.RunspacePool = $RunspacePool
 
-            [void]$PSInstance.AddScript($ScriptBlockAttributes.ScriptBlock)
+            [void]$PSInstance.AddScript($ScriptBlockPrepared)
 
             if ($ScriptBlockAttributes.UsingVariableData) {
                 foreach ($UsingVariable in $ScriptBlockAttributes.UsingVariableData) {
