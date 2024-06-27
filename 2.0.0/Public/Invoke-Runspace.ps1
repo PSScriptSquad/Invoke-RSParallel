@@ -33,7 +33,7 @@ function Invoke-Runspace {
             Author: Ryan Whitlock
             Date: 06.25.2024
             Version: 1.0
-            Changes: The script block is pre-compiled before entering the loop to reduce overhead.
+            Changes: The script block is pre-compiled before entering the loop to reduce overhead. Fixed formatting.
     #>
     [CmdletBinding()]
     param(
@@ -47,12 +47,13 @@ function Invoke-Runspace {
         [PSObject]$InputObject,
 
         [Parameter(Mandatory = $false)]
-        [ValidateScript({ if (-not (Test-Path -Path $_ -PathType Container)) {
-                throw "Invalid log path: $_" 
-                }
-                $true
-            })]
-        [System.IO.Fileinfo]$LogPath
+        [ValidateScript({
+            if (-not (Test-Path -Path $_ -PathType Container)) {
+                throw "Invalid log path: $_"
+            }
+            $true
+        })]
+        [System.IO.FileInfo]$LogPath
     )
     begin {
         if ($PSBoundParameters.ContainsKey('LogPath')) {
