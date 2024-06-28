@@ -68,8 +68,6 @@ The `Invoke-RSParallel` module provides a set of functions that enable efficient
     $CurrentWhoIs = $IP.clientIP | Get-WhoIs -ErrorAction SilentlyContinue
     [PSCustomObject]@{
         'clientIP' = $CurrentWhoIs.IP
-        'reason' = $IP.reason
-        'ymd' = $IP.ymd
         'RegisteredOrganization' = $CurrentWhoIs.RegisteredOrganization
         'CIDR' = $CurrentWhoIs.NetBlocks
         'City' = $CurrentWhoIs.City
