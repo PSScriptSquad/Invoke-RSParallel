@@ -30,7 +30,7 @@ CompanyName = 'Unknown'
 Copyright = '(c) 2024 Ryan Whitlock. All rights reserved.'
 
 # Description of the functionality provided by this module
-# Description = ''
+# Description = 'The Invoke-RSParallel module provides a set of functions that enable efficient parallel execution of script blocks using PowerShell runspaces. This module is designed to maximize performance by leveraging multi-threading capabilities, making it ideal for tasks that require high concurrency and efficient resource management.'
 
 # Minimum version of the Windows PowerShell engine required by this module
 # PowerShellVersion = ''
@@ -114,7 +114,7 @@ PrivateData = @{
 } # End of PrivateData hashtable
 
 # HelpInfo URI of this module
-# HelpInfoURI = ''
+# HelpInfoURI = 'https://github.com/PSScriptSquad/Invoke-RSParallel/tree/main/2.0.0'
 
 # Default prefix for commands exported from this module. Override the default prefix using Import-Module -Prefix.
 # DefaultCommandPrefix = ''
