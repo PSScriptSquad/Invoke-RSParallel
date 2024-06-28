@@ -84,6 +84,13 @@ $NewNewRuspaceCodeTime = Measure-Command  {
    $WhoIsNew = Invoke-Runspace –RunspacePool $RunspacePool –ScriptBlock $ScriptBlock -InputObject $IPs -LogPath C:\temp\
 }
 ```
+```cmd
+PS C:\Users\Ryan> $IPs.Count
+1145
+
+PS C:\Users\Ryan> $NewNewRuspaceCodeTime.TotalSeconds
+12.9237955
+```
 My Get-WhoIs function can be found [here](https://github.com/PSScriptSquad/GeneralUtilityScripts/blob/main/Get-WhoIs.ps1)
 
 
