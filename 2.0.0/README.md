@@ -81,7 +81,7 @@ The `Invoke-RSParallel` module provides a set of functions that enable efficient
 $IPs = Import-Csv -Path "C:\Users\Ryan\Desktop\TorExit.csv" -Header clientIP
 $RunspacePool = New-RunspacePool -ImportFunctions
 $NewNewRuspaceCodeTime = Measure-Command  {
-   $WhoIsNew = Invoke-Runspace –RunspacePool $RunspacePool –ScriptBlock $ScriptBlock -InputObject $IPs -LogPath C:\temp\
+   $WhoIs = Invoke-Runspace –RunspacePool $RunspacePool –ScriptBlock $ScriptBlock -InputObject $IPs -LogPath C:\temp\
 }
 ```
 ```cmd
